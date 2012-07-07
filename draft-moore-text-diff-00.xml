@@ -11,8 +11,8 @@
 <!ENTITY RFC3023 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3023.xml">
 <!--
 <!ENTITY RFC2629 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2629.xml">
--->
 <!ENTITY I-D.narten-iana-considerations-rfc2434bis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.narten-iana-considerations-rfc2434bis.xml">
+-->
 <!ENTITY RFC5789 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5789.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
@@ -274,19 +274,8 @@ patch = 1*diff
       </section>
     </section>
 
-    <section anchor="IANA" title="IANA Considerations">
-      <t>This memo includes no request to IANA.</t>
-
-      <t>All drafts are required to have an IANA considerations section (see
-      <xref target="I-D.narten-iana-considerations-rfc2434bis">the update of
-      RFC 2434</xref> for a guide). If the draft does not require IANA to do
-      anything, the section contains an explicit statement that this is the
-      case (as above). If there are no requirements for IANA, the section will
-      be removed during conversion into an RFC by the RFC Editor.</t>
-    </section>
-
-    <section title="Security Considerations">
-      <section title="Out of scope attacks">
+    <section anchor="security_considerations" title="Security Considerations">
+      <section title="Out-of-scope attacks">
 	<t>
 	Since this document describes a media type and not a protocol,
 	network-based attacks are out of scope for this specification.
@@ -336,6 +325,48 @@ patch = 1*diff
       </t>
       </section>
     </section>
+
+    <section anchor="IANA" title="IANA Considerations">
+      <t>This memo includes a request to IANA to register the text/diff
+      media type.</t>
+      <t>Type name: text</t>
+      <t>Subtype name: diff</t>
+      <t>Required parameters: none</t>
+      <t>Optional parameters:
+	<list style="empty">
+	  <t>charset
+	    <list style="empty">
+	      <t>This parameter has identical semantics to the &quot;charset&quot; parameter of the "text/plain" media type as specified in <xref target="RFC2046">RFC 2046</xref>. Values are restricted to charsets which are supersets of US-ASCII.</t>
+	    </list>
+	  </t>
+	</list>
+      </t>
+      <t>Encoding considerations:
+	<list style="empty">
+	  <t>The syntax of the text/diff format is expressed over 8-bit
+	    octets. The encoding of the file is as specified by the charset
+	    parameter, which defaults to US-ASCII if not provided.</t>
+	</list>
+      </t>
+      <t>Security considerations: see <xref target="security_considerations"/>.</t>
+      <t>Interoperability considerations: TBD</t>
+      <t>Published specification: this document.</t>
+      <t>Applications that use this media type: diff, patch, svn, git.</t>
+      <t>Additional information:
+	<list style="empty">
+	  <t>Magic number(s): none</t>
+	  <t>File extension(s): .patch, .diff</t>
+	  <t>Macintosh file type code(s): TEXT</t>
+	</list>
+      </t>
+      <t>Person &amp; email address to contact for more information: authors
+	of this document.</t>
+      <t>Intended usage: COMMON</t>
+      <t>Restrictions on usage: none</t>
+      <t>Author: authors of this document.</t>
+      <t>Change controller: authors of this document.</t>
+    </section>
+
 <!--
     <section anchor="simple_list" title="Simple List">
       <t>List styles: 'empty', 'symbols', 'letters', 'numbers', 'hanging',
@@ -564,7 +595,9 @@ patch = 1*diff
 
       &RFC5789;
 
+      <!--
       &I-D.narten-iana-considerations-rfc2434bis;
+      -->
 
       <!-- A reference written by by an organization not a person. -->
       <reference anchor="WIKIPEDIA"
