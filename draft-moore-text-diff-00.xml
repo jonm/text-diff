@@ -8,10 +8,10 @@
 
 <!ENTITY RFC2046 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2046.xml">
 <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC3023 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3023.xml">
 <!--
 <!ENTITY RFC2629 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2629.xml">
 -->
-<!ENTITY RFC3552 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3552.xml">
 <!ENTITY I-D.narten-iana-considerations-rfc2434bis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.narten-iana-considerations-rfc2434bis.xml">
 <!ENTITY RFC5789 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5789.xml">
 ]>
@@ -274,28 +274,67 @@ patch = 1*diff
       </section>
     </section>
 
+    <section anchor="IANA" title="IANA Considerations">
+      <t>This memo includes no request to IANA.</t>
+
+      <t>All drafts are required to have an IANA considerations section (see
+      <xref target="I-D.narten-iana-considerations-rfc2434bis">the update of
+      RFC 2434</xref> for a guide). If the draft does not require IANA to do
+      anything, the section contains an explicit statement that this is the
+      case (as above). If there are no requirements for IANA, the section will
+      be removed during conversion into an RFC by the RFC Editor.</t>
+    </section>
+
     <section title="Security Considerations">
+      <section title="Out of scope attacks">
+	<t>
+	Since this document describes a media type and not a protocol,
+	network-based attacks are out of scope for this specification.
+	In particular, eavesdropping, replay, message insertion,
+	deletion, modification, and man-in-the-middle attacks are the
+	concern of the containing or transporting protocol and not of
+	the media type itself. This specification makes no claims
+	about and does not provide facilities for authentication,
+	authorization, file integrity, or non-repudiation.</t>
+      </section>
+      <section title="In-scope attacks">
       <t>As a subtype of the &quot;text/*&quot; media type, text/diff
 	shares many of the security concerns related to processing any
 	arbitrary text body.  In particular, implementators SHOULD be
 	aware that this specification does not impose a maximum line
 	length, and that implementations that assume a fixed maximum
-	line length may be subject to buffer overrun attacks.</t>
+	line length may be subject to buffer overrun attacks. Implementations
+	should also be aware of denial-of-service or buffer overrun attacks
+	involving extraordinarily large text/diff files. Again, however,
+	file framing would be a concern of the containing or transporting
+	protocol.
+      </t>
+
+      <t>In addition, text/diff files may contain control characters
+	that may alter an operating environment when displayed to a
+	terminal (or otherwise). <xref target="RFC3023">RFC 3023</xref>
+	contains a list of possible attacks and recommended defenses
+	against these attacks in its Security Considerations section.</t>
       
       <t>The contents of a text/diff file describe a set of changes
 	that may be applied to a file to alter its contents, and hence
 	implementations that process text/diff patches SHOULD be sure
 	that the sender is properly authenticated and authorized
-	before applying patches. Authentication and authorization are
-	outside the scope of this specification.</t>
+	before applying patches. To the extent that patches are
+	automatically applied, recipients of text/diff entities may be
+	at risk. In general, it may be possible to specify changesets
+	that perform unauthorized file changes and/or make changes to
+	the recipient's system that may affect subsequent processing.
+      </t>
 
-      <t>At any rate, the actual
-	patch file itself is merely descriptive of a set of changes
-	and does not contain actual executable content per se. Rather,
-	a recipient must choose explicitly whether or not to apply a
-	patch, so in some sense this security concern is not
-	attributable to the media type per se, but we mention this
-	issue as a community public service announcement.</t>
+      <t>Some security considerations will vary by application domain.
+	For example, text/diff patches intended to update financial
+	records may have more stringent privacy, security, and auditing
+	requirements than a publicly-disseminated file showing the
+	source code differences between two releases of an open source
+	software project.
+      </t>
+      </section>
     </section>
 <!--
     <section anchor="simple_list" title="Simple List">
@@ -492,21 +531,7 @@ patch = 1*diff
 
     <!-- Possibly a 'Contributors' section ... -->
 
-    <section anchor="IANA" title="IANA Considerations">
-      <t>This memo includes no request to IANA.</t>
 
-      <t>All drafts are required to have an IANA considerations section (see
-      <xref target="I-D.narten-iana-considerations-rfc2434bis">the update of
-      RFC 2434</xref> for a guide). If the draft does not require IANA to do
-      anything, the section contains an explicit statement that this is the
-      case (as above). If there are no requirements for IANA, the section will
-      be removed during conversion into an RFC by the RFC Editor.</t>
-    </section>
-
-    <section anchor="Security" title="Security Considerations">
-      <t>All drafts are required to have a security considerations section.
-      See <xref target="RFC3552">RFC 3552</xref> for a guide.</t>
-    </section>
   </middle>
 
   <!--  *****BACK MATTER ***** -->
@@ -535,8 +560,7 @@ patch = 1*diff
       <!--
       &RFC2629;
       -->
-
-      &RFC3552;
+      &RFC3023;
 
       &RFC5789;
 

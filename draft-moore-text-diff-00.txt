@@ -64,15 +64,15 @@ Table of Contents
    2.  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . . 3
      2.1.  Permitted Character Sets  . . . . . . . . . . . . . . . . . 3
      2.2.  Grammar . . . . . . . . . . . . . . . . . . . . . . . . . . 4
-   3.  Security Considerations . . . . . . . . . . . . . . . . . . . . 5
-   4.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 6
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 6
-   6.  Security Considerations . . . . . . . . . . . . . . . . . . . . 6
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 7
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . . . 7
-     7.2.  Informative References  . . . . . . . . . . . . . . . . . . 7
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 7
-
+   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 5
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . . . 6
+     4.1.  Out of scope attacks  . . . . . . . . . . . . . . . . . . . 6
+     4.2.  In-scope attacks  . . . . . . . . . . . . . . . . . . . . . 6
+   5.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 7
+   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+     6.1.  Normative References  . . . . . . . . . . . . . . . . . . . 7
+     6.2.  Informative References  . . . . . . . . . . . . . . . . . . 7
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 8
 
 
 
@@ -267,12 +267,12 @@ Internet-Draft              Abbreviated Title                  July 2012
 
 
 
-3.  Security Considerations
+3.  IANA Considerations
 
-   As a subtype of the "text/*" media type, text/diff shares many of the
-   security concerns related to processing any arbitrary text body.  In
-   particular, implementators SHOULD be aware that this specification
-   does not impose a maximum line length, and that implementations that
+   This memo includes no request to IANA.
+
+   All drafts are required to have an IANA considerations section (see
+   the update of RFC 2434 [I-D.narten-iana-considerations-rfc2434bis]
 
 
 
@@ -281,25 +281,69 @@ Moore                    Expires January 8, 2013                [Page 5]
 Internet-Draft              Abbreviated Title                  July 2012
 
 
+   for a guide).  If the draft does not require IANA to do anything, the
+   section contains an explicit statement that this is the case (as
+   above).  If there are no requirements for IANA, the section will be
+   removed during conversion into an RFC by the RFC Editor.
+
+
+4.  Security Considerations
+
+4.1.  Out of scope attacks
+
+   Since this document describes a media type and not a protocol,
+   network-based attacks are out of scope for this specification.  In
+   particular, eavesdropping, replay, message insertion, deletion,
+   modification, and man-in-the-middle attacks are the concern of the
+   containing or transporting protocol and not of the media type itself.
+   This specification makes no claims about and does not provide
+   facilities for authentication, authorization, file integrity, or non-
+   repudiation.
+
+4.2.  In-scope attacks
+
+   As a subtype of the "text/*" media type, text/diff shares many of the
+   security concerns related to processing any arbitrary text body.  In
+   particular, implementators SHOULD be aware that this specification
+   does not impose a maximum line length, and that implementations that
    assume a fixed maximum line length may be subject to buffer overrun
-   attacks.
+   attacks.  Implementations should also be aware of denial-of-service
+   or buffer overrun attacks involving extraordinarily large text/diff
+   files.  Again, however, file framing would be a concern of the
+   containing or transporting protocol.
+
+   In addition, text/diff files may contain control characters that may
+   alter an operating environment when displayed to a terminal (or
+   otherwise).  RFC 3023 [RFC3023] contains a list of possible attacks
+   and recommended defenses against these attacks in its Security
+   Considerations section.
 
    The contents of a text/diff file describe a set of changes that may
    be applied to a file to alter its contents, and hence implementations
    that process text/diff patches SHOULD be sure that the sender is
-   properly authenticated and authorized before applying patches.
-   Authentication and authorization are outside the scope of this
-   specification.
+   properly authenticated and authorized before applying patches.  To
+   the extent that patches are automatically applied, recipients of
+   text/diff entities may be at risk.  In general, it may be possible to
+   specify changesets that perform unauthorized file changes and/or make
+   changes to the recipient's system that may affect subsequent
+   processing.
 
-   At any rate, the actual patch file itself is merely descriptive of a
-   set of changes and does not contain actual executable content per se.
-   Rather, a recipient must choose explicitly whether or not to apply a
-   patch, so in some sense this security concern is not attributable to
-   the media type per se, but we mention this issue as a community
-   public service announcement.
+   Some security considerations will vary by application domain.  For
 
 
-4.  Acknowledgements
+
+Moore                    Expires January 8, 2013                [Page 6]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
+   example, text/diff patches intended to update financial records may
+   have more stringent privacy, security, and auditing requirements than
+   a publicly-disseminated file showing the source code differences
+   between two releases of an open source software project.
+
+
+5.  Acknowledgements
 
    The author wishes to thank those who have done the hard work of
    developing the algorithms and tools that form the de facto standard
@@ -309,35 +353,9 @@ Internet-Draft              Abbreviated Title                  July 2012
    maintained and updated them over the years.
 
 
-5.  IANA Considerations
+6.  References
 
-   This memo includes no request to IANA.
-
-   All drafts are required to have an IANA considerations section (see
-   the update of RFC 2434 [I-D.narten-iana-considerations-rfc2434bis]
-   for a guide).  If the draft does not require IANA to do anything, the
-   section contains an explicit statement that this is the case (as
-   above).  If there are no requirements for IANA, the section will be
-   removed during conversion into an RFC by the RFC Editor.
-
-
-6.  Security Considerations
-
-   All drafts are required to have a security considerations section.
-   See RFC 3552 [RFC3552] for a guide.
-
-
-7.  References
-
-
-
-
-Moore                    Expires January 8, 2013                [Page 6]
-
-Internet-Draft              Abbreviated Title                  July 2012
-
-
-7.1.  Normative References
+6.1.  Normative References
 
    [RFC2046]  Freed, N. and N. Borenstein, "Multipurpose Internet Mail
               Extensions (MIME) Part Two: Media Types", RFC 2046,
@@ -346,7 +364,7 @@ Internet-Draft              Abbreviated Title                  July 2012
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
 
-7.2.  Informative References
+6.2.  Informative References
 
    [GNU]      GNU, Free Software Foundation, "GNU diffutils manual,
               Detailed Description of Unified Format", 2012, <http://
@@ -359,15 +377,22 @@ Internet-Draft              Abbreviated Title                  July 2012
               draft-narten-iana-considerations-rfc2434bis-09 (work in
               progress), March 2008.
 
-   [RFC3552]  Rescorla, E. and B. Korver, "Guidelines for Writing RFC
-              Text on Security Considerations", BCP 72, RFC 3552,
-              July 2003.
+   [RFC3023]  Murata, M., St. Laurent, S., and D. Kohn, "XML Media
+              Types", RFC 3023, January 2001.
 
    [RFC5789]  Dusseault, L. and J. Snell, "PATCH Method for HTTP",
               RFC 5789, March 2010.
 
    [VANROSSUM]
               van Rossum, "Unified Diff Format", June 2006,
+
+
+
+Moore                    Expires January 8, 2013                [Page 7]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
               <http://www.artima.com/weblogs/
               viewpost.jsp?thread=164293>.
 
@@ -388,5 +413,36 @@ Author's Address
 
 
 
-Moore                    Expires January 8, 2013                [Page 7]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Moore                    Expires January 8, 2013                [Page 8]
 
