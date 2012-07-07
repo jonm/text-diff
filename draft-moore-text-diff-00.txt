@@ -61,15 +61,15 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . . 3
      1.1.  Requirements Language . . . . . . . . . . . . . . . . . . . 3
-   2.  BNF . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
-   3.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 3
+   2.  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+     2.1.  Permitted Character Sets  . . . . . . . . . . . . . . . . . 3
+   3.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 4
    4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 4
    5.  Security Considerations . . . . . . . . . . . . . . . . . . . . 4
-   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 4
-     6.1.  Normative References  . . . . . . . . . . . . . . . . . . . 4
-     6.2.  Informative References  . . . . . . . . . . . . . . . . . . 4
+   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+     6.1.  Normative References  . . . . . . . . . . . . . . . . . . . 5
+     6.2.  Informative References  . . . . . . . . . . . . . . . . . . 5
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 5
-
 
 
 
@@ -144,9 +144,47 @@ Internet-Draft              Abbreviated Title                  July 2012
    document are to be interpreted as described in RFC 2119 [RFC2119].
 
 
-2.  BNF
+2.  Definition
 
-   Actual definition of the format.
+   As a member of the "text/*" media type family, the text/diff format
+   follows the requirements for textual messages laid out in RFC 2046
+   [RFC2046], including the use of a "charset" parameter with a default
+   value of US-ASCII and the use of CRLF as a linebreak.
+
+2.1.  Permitted Character Sets
+
+   As the unified diff format relies on the use of certain US-ASCII
+   characters to delineate change hunks and context.  Therefore, the
+   value of the "charset" parameter MUST reference a character set which
+   is a superset of US-ASCII.  Permitted character sets specifically
+   include:
+
+   o  US-ASCII
+
+
+
+
+Moore                    Expires January 8, 2013                [Page 3]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
+   o  those in the ISO-8859-* family
+
+   o  UTF-8
+
+   Other character sets that are supersets of US-ASCII MAY be specified
+   as values of the "charset" parameter.
+
+   Generally speaking, this format is useful for describing changesets
+   against files whose original and modified character set encodings are
+   both supersets of US-ASCII.  Implementations generating text/diff
+   SHOULD follow the guidelines of RFC 2046 [RFC2046] and use the
+   "lowest common denominator" for the "charset" parameter value.  For
+   example, it is possible that the original and modified versions of a
+   file might use the ISO-8859-1 character set, but the changed portions
+   may only use US-ASCII characters: in this case the resulting diff
+   should be marked as using the "us-ascii" character set.
 
 
 3.  Acknowledgements
@@ -157,16 +195,6 @@ Internet-Draft              Abbreviated Title                  July 2012
    like to recognize Douglas McIlroy and Larry Wall for the initial diff
    and patch utilities as well as the numerous contributors that have
    maintained and updated them over the years.
-
-
-
-
-
-
-
-Moore                    Expires January 8, 2013                [Page 3]
-
-Internet-Draft              Abbreviated Title                  July 2012
 
 
 4.  IANA Considerations
@@ -189,7 +217,19 @@ Internet-Draft              Abbreviated Title                  July 2012
 
 6.  References
 
+
+
+
+Moore                    Expires January 8, 2013                [Page 4]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
 6.1.  Normative References
+
+   [RFC2046]  Freed, N. and N. Borenstein, "Multipurpose Internet Mail
+              Extensions (MIME) Part Two: Media Types", RFC 2046,
+              November 1996.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
@@ -217,14 +257,6 @@ Internet-Draft              Abbreviated Title                  July 2012
    [VANROSSUM]
               van Rossum, "Unified Diff Format", June 2006,
               <http://www.artima.com/weblogs/
-
-
-
-Moore                    Expires January 8, 2013                [Page 4]
-
-Internet-Draft              Abbreviated Title                  July 2012
-
-
               viewpost.jsp?thread=164293>.
 
    [WIKIPEDIA]
@@ -240,38 +272,6 @@ Author's Address
 
    Phone:
    Email: jonm@jjmoore.net
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

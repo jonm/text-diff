@@ -6,6 +6,7 @@
      There has to be one entity for each item to be referenced. 
      An alternate method (rfc include) is described in the references. -->
 
+<!ENTITY RFC2046 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2046.xml">
 <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
 <!--
 <!ENTITY RFC2629 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2629.xml">
@@ -158,8 +159,40 @@
       </section>
     </section>
 
-    <section title="BNF">
-      <t>Actual definition of the format.</t>
+    <section title="Definition">
+      <t>As a member of the &quot;text/*&quot; media type family, the
+	text/diff format follows the requirements for textual messages laid
+	out in <xref target="RFC2046">RFC 2046</xref>, including the use
+	of a &quot;charset&quot; parameter with a default value of US-ASCII
+	and the use of CRLF as a linebreak.
+      </t>
+      <section title="Permitted Character Sets">
+	<t>As the unified diff format relies on the use of certain US-ASCII
+	characters to delineate change hunks and context.
+	Therefore, the value of the &quot;charset&quot; parameter MUST
+	reference a character set which is a superset of US-ASCII. Permitted
+	character sets specifically include:
+	<list style="symbols">
+	    <t>US-ASCII</t>
+	    <t>those in the ISO-8859-* family</t>
+	    <t>UTF-8</t>
+	</list>
+	Other character sets that are supersets of US-ASCII MAY be specified
+	as values of the &quot;charset&quot; parameter.
+	</t>
+	<t>Generally speaking, this format is useful for describing
+	changesets against files whose original and modified character
+	set encodings are both supersets of US-ASCII. Implementations
+	generating text/diff SHOULD follow the guidelines
+	of <xref target="RFC2046">RFC 2046</xref> and use the
+	&quot;lowest common denominator&quot; for the
+	&quot;charset&quot; parameter value. For example, it is
+	possible that the original and modified versions of a file
+	might use the ISO-8859-1 character set, but the changed
+	portions may only use US-ASCII characters: in this case the
+	resulting diff should be marked as using the "us-ascii"
+	character set.</t>
+      </section>
     </section>
 
 <!--
@@ -391,7 +424,7 @@
      filing system or remote ones accessed by http (http://domain/dir/... ).-->
 
     <references title="Normative References">
-      <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+      &RFC2046;
       &RFC2119;
     </references>
 
@@ -443,22 +476,5 @@
       <t>This becomes an Appendix.</t>
     </section>
 -->
-
-    <!-- Change Log
-
-v00 2006-03-15  EBD   Initial version
-
-v01 2006-04-03  EBD   Moved PI location back to position 1 -
-                      v3.1 of XMLmind is better with them at this location.
-v02 2007-03-07  AH    removed extraneous nested_list attribute,
-                      other minor corrections
-v03 2007-03-09  EBD   Added comments on null IANA sections and fixed heading capitalization.
-                      Modified comments around figure to reflect non-implementation of
-                      figure indent control.  Put in reference using anchor="DOMINATION".
-                      Fixed up the date specification comments to reflect current truth.
-v04 2007-03-09 AH     Major changes: shortened discussion of PIs,
-                      added discussion of rfc include.
-v05 2007-03-10 EBD    Added preamble to C program example to tell about ABNF and alternative 
-                      images. Removed meta-characters from comments (causes problems).  -->
   </back>
 </rfc>
