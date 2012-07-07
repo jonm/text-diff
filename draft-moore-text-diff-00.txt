@@ -63,14 +63,14 @@ Table of Contents
      1.1.  Requirements Language . . . . . . . . . . . . . . . . . . . 3
    2.  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . . 3
      2.1.  Permitted Character Sets  . . . . . . . . . . . . . . . . . 3
+     2.2.  Grammar . . . . . . . . . . . . . . . . . . . . . . . . . . 4
    3.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 4
-   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 4
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . . . 4
+   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 5
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . . . 5
    6.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 5
      6.1.  Normative References  . . . . . . . . . . . . . . . . . . . 5
      6.2.  Informative References  . . . . . . . . . . . . . . . . . . 5
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 5
-
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 6
 
 
 
@@ -186,11 +186,45 @@ Internet-Draft              Abbreviated Title                  July 2012
    may only use US-ASCII characters: in this case the resulting diff
    should be marked as using the "us-ascii" character set.
 
+2.2.  Grammar
+
+   A diff file begins with a two-line header describing the old and new
+   filenames and their modification dates, and a way of differentiating
+   which is which.
+
+
+   filename = 1*VCHAR
+   year = 4DIGIT
+   month = 2DIGIT
+   day = 2DIGIT
+   date = year "-" month "-" day
+   hour = 2DIGIT
+   minute = 2DIGIT
+   second = 2DIGIT
+   nanosecond = 9DIGIT
+   time = hour ":" minute ":" second
+   timezone = ("+" / "-") hour minute
+   file-modification = filename HTAB date SP time SP timezone
+   old-indicator = "---"
+   new-indicator = "+++"
+   old-header = old-indicator SP file-modification
+   new-header = new-indicator SP file-modification
+   headers = old-header CRLF new-header CRLF
+
+
 
 3.  Acknowledgements
 
    The author wishes to thank those who have done the hard work of
    developing the algorithms and tools that form the de facto standard
+
+
+
+Moore                    Expires January 8, 2013                [Page 4]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
    of patchset exchange on the Internet today.  In particular, he would
    like to recognize Douglas McIlroy and Larry Wall for the initial diff
    and patch utilities as well as the numerous contributors that have
@@ -217,14 +251,6 @@ Internet-Draft              Abbreviated Title                  July 2012
 
 6.  References
 
-
-
-
-Moore                    Expires January 8, 2013                [Page 4]
-
-Internet-Draft              Abbreviated Title                  July 2012
-
-
 6.1.  Normative References
 
    [RFC2046]  Freed, N. and N. Borenstein, "Multipurpose Internet Mail
@@ -246,6 +272,14 @@ Internet-Draft              Abbreviated Title                  July 2012
               IANA Considerations Section in RFCs",
               draft-narten-iana-considerations-rfc2434bis-09 (work in
               progress), March 2008.
+
+
+
+
+Moore                    Expires January 8, 2013                [Page 5]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
 
    [RFC3552]  Rescorla, E. and B. Korver, "Guidelines for Writing RFC
               Text on Security Considerations", BCP 72, RFC 3552,
@@ -276,5 +310,27 @@ Author's Address
 
 
 
-Moore                    Expires January 8, 2013                [Page 5]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Moore                    Expires January 8, 2013                [Page 6]
 

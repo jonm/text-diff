@@ -191,6 +191,36 @@
 	resulting diff should be marked as using the "us-ascii"
 	character set.</t>
       </section>
+      <section title="Grammar">
+	<t>A diff file begins with a two-line header describing the old and
+	  new filenames and their modification dates, and a way of
+	  differentiating which is which.</t>
+	<figure>
+<artwork type="abnf">
+<![CDATA[
+filename = 1*VCHAR
+year = 4DIGIT
+month = 2DIGIT
+day = 2DIGIT
+date = year "-" month "-" day
+hour = 2DIGIT
+minute = 2DIGIT
+second = 2DIGIT
+nanosecond = 9DIGIT
+time = hour ":" minute ":" second
+timezone = ("+" / "-") hour minute
+file-modification = filename HTAB date SP time SP timezone
+old-indicator = "---"
+new-indicator = "+++"
+old-header = old-indicator SP file-modification
+new-header = new-indicator SP file-modification
+headers = old-header CRLF new-header CRLF
+]]>
+</artwork>
+<!--
+-->
+	</figure>
+      </section>
     </section>
 
 <!--
