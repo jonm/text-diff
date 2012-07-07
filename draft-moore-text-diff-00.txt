@@ -1,0 +1,280 @@
+
+
+
+Internet Engineering Task Force                                 J. Moore
+Internet-Draft                                              July 7, 2012
+Intended status: Standards Track
+Expires: January 8, 2013
+
+
+                        The text/diff Media Type
+                        draft-moore-text-diff-00
+
+Abstract
+
+   This document captures the definition of the commonly-used "unified
+   diff format" used to represent changes from one version of a file to
+   another for the purpose of registering this format formally as a
+   registered IANA media type.
+
+Status of this Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on January 8, 2013.
+
+Copyright Notice
+
+   Copyright (c) 2012 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+
+
+
+Moore                    Expires January 8, 2013                [Page 1]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . . 3
+     1.1.  Requirements Language . . . . . . . . . . . . . . . . . . . 3
+   2.  BNF . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+   3.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 3
+   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 4
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . . . 4
+   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+     6.1.  Normative References  . . . . . . . . . . . . . . . . . . . 4
+     6.2.  Informative References  . . . . . . . . . . . . . . . . . . 4
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Moore                    Expires January 8, 2013                [Page 2]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
+1.  Introduction
+
+   The "unified diff format" is a commonly-used file format typically
+   used for exchanging patch changesets to a set of documents--most
+   notably, source code trees. (including source code).  This format is
+   generated and understood by a variety of open source tools including
+   diff, patch, svn, and git.  However, at the time of this writing, no
+   definitive, formal definition of this file format exists, although
+   there are numerous informal definitions, including a Wikipedia
+   article about diff [WIKIPEDIA], a blog post [VANROSSUM] by Guido van
+   Rossum, and the documentation for GNU diffutils [GNU].
+
+   At the same time, the HTTP PATCH method was recently standardized as
+   RFC 5789 [RFC5789], for which this file format would be an ideal
+   media type.  There are additionally other Internet-based services
+   that trade regularly in patches or diffs that might benefit
+   specifically from having participants explicitly declare that
+   exchanged patchsets conform to a specific file format.
+
+   Therefore, the goals of this document are first, to record a formal
+   definition of the file format for reference purposes, and second, to
+   request the IANA registration of a standard media type for this
+   format.
+
+1.1.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in RFC 2119 [RFC2119].
+
+
+2.  BNF
+
+   Actual definition of the format.
+
+
+3.  Acknowledgements
+
+   The author wishes to thank those who have done the hard work of
+   developing the algorithms and tools that form the de facto standard
+   of patchset exchange on the Internet today.  In particular, he would
+   like to recognize Douglas McIlroy and Larry Wall for the initial diff
+   and patch utilities as well as the numerous contributors that have
+   maintained and updated them over the years.
+
+
+
+
+
+
+
+Moore                    Expires January 8, 2013                [Page 3]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
+4.  IANA Considerations
+
+   This memo includes no request to IANA.
+
+   All drafts are required to have an IANA considerations section (see
+   the update of RFC 2434 [I-D.narten-iana-considerations-rfc2434bis]
+   for a guide).  If the draft does not require IANA to do anything, the
+   section contains an explicit statement that this is the case (as
+   above).  If there are no requirements for IANA, the section will be
+   removed during conversion into an RFC by the RFC Editor.
+
+
+5.  Security Considerations
+
+   All drafts are required to have a security considerations section.
+   See RFC 3552 [RFC3552] for a guide.
+
+
+6.  References
+
+6.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+6.2.  Informative References
+
+   [GNU]      GNU, Free Software Foundation, "GNU diffutils manual,
+              Detailed Description of Unified Format", 2012, <http://
+              www.gnu.org/software/diffutils/manual/html_node/
+              Detailed-Unified.html#Detailed-Unified>.
+
+   [I-D.narten-iana-considerations-rfc2434bis]
+              Narten, T. and H. Alvestrand, "Guidelines for Writing an
+              IANA Considerations Section in RFCs",
+              draft-narten-iana-considerations-rfc2434bis-09 (work in
+              progress), March 2008.
+
+   [RFC3552]  Rescorla, E. and B. Korver, "Guidelines for Writing RFC
+              Text on Security Considerations", BCP 72, RFC 3552,
+              July 2003.
+
+   [RFC5789]  Dusseault, L. and J. Snell, "PATCH Method for HTTP",
+              RFC 5789, March 2010.
+
+   [VANROSSUM]
+              van Rossum, "Unified Diff Format", June 2006,
+              <http://www.artima.com/weblogs/
+
+
+
+Moore                    Expires January 8, 2013                [Page 4]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
+              viewpost.jsp?thread=164293>.
+
+   [WIKIPEDIA]
+              Wikipedia, "diff", 2012,
+              <http://en.wikipedia.org/wiki/Diff#Unified_format>.
+
+
+Author's Address
+
+   Jonathan Moore
+   Philadelphia, PA
+   USA
+
+   Phone:
+   Email: jonm@jjmoore.net
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Moore                    Expires January 8, 2013                [Page 5]
+
