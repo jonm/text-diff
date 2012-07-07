@@ -65,7 +65,7 @@ Table of Contents
      2.1.  Permitted Character Sets  . . . . . . . . . . . . . . . . . 3
      2.2.  Grammar . . . . . . . . . . . . . . . . . . . . . . . . . . 4
    3.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 5
-   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 5
+   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 6
    5.  Security Considerations . . . . . . . . . . . . . . . . . . . . 6
    6.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 6
      6.1.  Normative References  . . . . . . . . . . . . . . . . . . . 6
@@ -252,10 +252,18 @@ Internet-Draft              Abbreviated Title                  July 2012
    chunk = chunk-header CRLF 1*chunk-line
 
 
-   Finally, a diff file is a header followed by at least one chunk.
+   Therefore, a single file diff is a header followed by at least one
+   chunk.
 
 
    diff = headers 1*chunk
+
+
+   And lastly, a patch consists of a non-empty set of single file diffs.
+   A file matching the "patch" production is a valid text/diff file.
+
+
+   patch = 1*diff
 
 
 
@@ -265,14 +273,6 @@ Internet-Draft              Abbreviated Title                  July 2012
    developing the algorithms and tools that form the de facto standard
    of patchset exchange on the Internet today.  In particular, he would
    like to recognize Douglas McIlroy and Larry Wall for the initial diff
-   and patch utilities as well as the numerous contributors that have
-   maintained and updated them over the years.
-
-
-4.  IANA Considerations
-
-   This memo includes no request to IANA.
-
 
 
 
@@ -280,6 +280,14 @@ Moore                    Expires January 8, 2013                [Page 5]
 
 Internet-Draft              Abbreviated Title                  July 2012
 
+
+   and patch utilities as well as the numerous contributors that have
+   maintained and updated them over the years.
+
+
+4.  IANA Considerations
+
+   This memo includes no request to IANA.
 
    All drafts are required to have an IANA considerations section (see
    the update of RFC 2434 [I-D.narten-iana-considerations-rfc2434bis]
@@ -321,14 +329,6 @@ Internet-Draft              Abbreviated Title                  July 2012
 
    [RFC3552]  Rescorla, E. and B. Korver, "Guidelines for Writing RFC
               Text on Security Considerations", BCP 72, RFC 3552,
-              July 2003.
-
-   [RFC5789]  Dusseault, L. and J. Snell, "PATCH Method for HTTP",
-              RFC 5789, March 2010.
-
-   [VANROSSUM]
-              van Rossum, "Unified Diff Format", June 2006,
-              <http://www.artima.com/weblogs/
 
 
 
@@ -337,6 +337,14 @@ Moore                    Expires January 8, 2013                [Page 6]
 Internet-Draft              Abbreviated Title                  July 2012
 
 
+              July 2003.
+
+   [RFC5789]  Dusseault, L. and J. Snell, "PATCH Method for HTTP",
+              RFC 5789, March 2010.
+
+   [VANROSSUM]
+              van Rossum, "Unified Diff Format", June 2006,
+              <http://www.artima.com/weblogs/
               viewpost.jsp?thread=164293>.
 
    [WIKIPEDIA]
@@ -351,14 +359,6 @@ Author's Address
    USA
 
    Email: jonm@jjmoore.net
-
-
-
-
-
-
-
-
 
 
 

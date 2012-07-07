@@ -253,7 +253,7 @@ chunk = chunk-header CRLF 1*chunk-line
 ]]>
 </artwork>
 	</figure>
-	<t>Finally, a diff file is a header followed by at least one chunk.</t>
+	<t>Therefore, a single file diff is a header followed by at least one chunk.</t>
 	<figure>
 <artwork type="abnf">
 <![CDATA[
@@ -261,7 +261,16 @@ diff = headers 1*chunk
 ]]>
 </artwork>
 	</figure>
-	
+	<t>And lastly, a patch consists of a non-empty set of single
+	file diffs. A file matching the &quot;patch&quot; production is
+	a valid text/diff file.</t>
+	<figure>
+<artwork type="abnf">
+<![CDATA[
+patch = 1*diff
+]]>
+</artwork>
+	</figure>
       </section>
     </section>
 
