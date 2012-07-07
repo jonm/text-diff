@@ -64,13 +64,13 @@ Table of Contents
    2.  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . . 3
      2.1.  Permitted Character Sets  . . . . . . . . . . . . . . . . . 3
      2.2.  Grammar . . . . . . . . . . . . . . . . . . . . . . . . . . 4
-   3.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 4
+   3.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 5
    4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 5
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . . . 5
-   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 5
-     6.1.  Normative References  . . . . . . . . . . . . . . . . . . . 5
-     6.2.  Informative References  . . . . . . . . . . . . . . . . . . 5
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 6
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . . . 6
+   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+     6.1.  Normative References  . . . . . . . . . . . . . . . . . . . 6
+     6.2.  Informative References  . . . . . . . . . . . . . . . . . . 6
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 7
 
 
 
@@ -190,7 +190,7 @@ Internet-Draft              Abbreviated Title                  July 2012
 
    A diff file begins with a two-line header describing the old and new
    filenames and their modification dates, and a way of differentiating
-   which is which.
+   which is the old and which is the new.
 
 
    filename = 1*VCHAR
@@ -202,7 +202,7 @@ Internet-Draft              Abbreviated Title                  July 2012
    minute = 2DIGIT
    second = 2DIGIT
    nanosecond = 9DIGIT
-   time = hour ":" minute ":" second
+   time = hour ":" minute ":" second [ "." nanosecond ]
    timezone = ("+" / "-") hour minute
    file-modification = filename HTAB date SP time SP timezone
    old-indicator = "---"
@@ -212,11 +212,11 @@ Internet-Draft              Abbreviated Title                  July 2012
    headers = old-header CRLF new-header CRLF
 
 
+   After the header, a diff file contains a set of chunks.  Each chunk
+   begins with a header identifying the relevant selection of lines from
+   the old and new files.
 
-3.  Acknowledgements
 
-   The author wishes to thank those who have done the hard work of
-   developing the algorithms and tools that form the de facto standard
 
 
 
@@ -225,6 +225,44 @@ Moore                    Expires January 8, 2013                [Page 4]
 Internet-Draft              Abbreviated Title                  July 2012
 
 
+   line-number = 1*DIGIT
+   range = line-number [ "," line-number ]
+   chunk-header = "@@" SP "-" range SP "+" range SP "@@"
+
+
+   After the chunk header, the chunk includes a set of lines that are
+   marked as being either common, only in the old file, or only in the
+   new file.
+
+
+   common = SP
+   old-only = "-"
+   new-only = "+"
+   line-affinity = common / old-only / new-only
+   non-linebreak = %x00-09 / %x0B-0C / %x0E-FF
+   non-linefeed = %x00-09 / %x0B-FF
+   content = non-linebreak / (CR non-linefeed)
+   chunk-line = line-affinity 1*content CRLF
+
+
+   Thus, a chunk consists of a chunk header followed by at least one
+   chunk line.
+
+
+   chunk = chunk-header CRLF 1*chunk-line
+
+
+   Finally, a diff file is a header followed by at least one chunk.
+
+
+   diff = headers 1*chunk
+
+
+
+3.  Acknowledgements
+
+   The author wishes to thank those who have done the hard work of
+   developing the algorithms and tools that form the de facto standard
    of patchset exchange on the Internet today.  In particular, he would
    like to recognize Douglas McIlroy and Larry Wall for the initial diff
    and patch utilities as well as the numerous contributors that have
@@ -234,6 +272,14 @@ Internet-Draft              Abbreviated Title                  July 2012
 4.  IANA Considerations
 
    This memo includes no request to IANA.
+
+
+
+
+Moore                    Expires January 8, 2013                [Page 5]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
 
    All drafts are required to have an IANA considerations section (see
    the update of RFC 2434 [I-D.narten-iana-considerations-rfc2434bis]
@@ -273,14 +319,6 @@ Internet-Draft              Abbreviated Title                  July 2012
               draft-narten-iana-considerations-rfc2434bis-09 (work in
               progress), March 2008.
 
-
-
-
-Moore                    Expires January 8, 2013                [Page 5]
-
-Internet-Draft              Abbreviated Title                  July 2012
-
-
    [RFC3552]  Rescorla, E. and B. Korver, "Guidelines for Writing RFC
               Text on Security Considerations", BCP 72, RFC 3552,
               July 2003.
@@ -291,6 +329,14 @@ Internet-Draft              Abbreviated Title                  July 2012
    [VANROSSUM]
               van Rossum, "Unified Diff Format", June 2006,
               <http://www.artima.com/weblogs/
+
+
+
+Moore                    Expires January 8, 2013                [Page 6]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
               viewpost.jsp?thread=164293>.
 
    [WIKIPEDIA]
@@ -332,5 +378,15 @@ Author's Address
 
 
 
-Moore                    Expires January 8, 2013                [Page 6]
+
+
+
+
+
+
+
+
+
+
+Moore                    Expires January 8, 2013                [Page 7]
 

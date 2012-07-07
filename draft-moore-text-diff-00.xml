@@ -194,7 +194,7 @@
       <section title="Grammar">
 	<t>A diff file begins with a two-line header describing the old and
 	  new filenames and their modification dates, and a way of
-	  differentiating which is which.</t>
+	  differentiating which is the old and which is the new.</t>
 	<figure>
 <artwork type="abnf">
 <![CDATA[
@@ -207,7 +207,7 @@ hour = 2DIGIT
 minute = 2DIGIT
 second = 2DIGIT
 nanosecond = 9DIGIT
-time = hour ":" minute ":" second
+time = hour ":" minute ":" second [ "." nanosecond ]
 timezone = ("+" / "-") hour minute
 file-modification = filename HTAB date SP time SP timezone
 old-indicator = "---"
@@ -217,9 +217,51 @@ new-header = new-indicator SP file-modification
 headers = old-header CRLF new-header CRLF
 ]]>
 </artwork>
+	</figure>
+	<t>After the header, a diff file contains a set of chunks. Each chunk begins with a header identifying the relevant selection of lines from the old and new files.</t>
+	<figure>
+<artwork type="abnf">
+<![CDATA[
+line-number = 1*DIGIT
+range = line-number [ "," line-number ]
+chunk-header = "@@" SP "-" range SP "+" range SP "@@"
+]]>
+</artwork>
+	</figure>
+	<t>After the chunk header, the chunk includes a set of lines that are marked as being either common, only in the old file, or only in the new file.</t>
+	<figure>
+<artwork type="abnf">
+<![CDATA[
+common = SP
+old-only = "-"
+new-only = "+"
+line-affinity = common / old-only / new-only
+non-linebreak = %x00-09 / %x0B-0C / %x0E-FF
+non-linefeed = %x00-09 / %x0B-FF
+content = non-linebreak / (CR non-linefeed)
+chunk-line = line-affinity 1*content CRLF
+]]>
+</artwork>
 <!--
 -->
 	</figure>
+	<t>Thus, a chunk consists of a chunk header followed by at least one chunk line.</t>
+	<figure>
+<artwork type="abnf">
+<![CDATA[
+chunk = chunk-header CRLF 1*chunk-line
+]]>
+</artwork>
+	</figure>
+	<t>Finally, a diff file is a header followed by at least one chunk.</t>
+	<figure>
+<artwork type="abnf">
+<![CDATA[
+diff = headers 1*chunk 
+]]>
+</artwork>
+	</figure>
+	
       </section>
     </section>
 
