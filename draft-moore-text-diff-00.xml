@@ -274,6 +274,29 @@ patch = 1*diff
       </section>
     </section>
 
+    <section title="Security Considerations">
+      <t>As a subtype of the &quot;text/*&quot; media type, text/diff
+	shares many of the security concerns related to processing any
+	arbitrary text body.  In particular, implementators SHOULD be
+	aware that this specification does not impose a maximum line
+	length, and that implementations that assume a fixed maximum
+	line length may be subject to buffer overrun attacks.</t>
+      
+      <t>The contents of a text/diff file describe a set of changes
+	that may be applied to a file to alter its contents, and hence
+	implementations that process text/diff patches SHOULD be sure
+	that the sender is properly authenticated and authorized
+	before applying patches. Authentication and authorization are
+	outside the scope of this specification.</t>
+
+      <t>At any rate, the actual
+	patch file itself is merely descriptive of a set of changes
+	and does not contain actual executable content per se. Rather,
+	a recipient must choose explicitly whether or not to apply a
+	patch, so in some sense this security concern is not
+	attributable to the media type per se, but we mention this
+	issue as a community public service announcement.</t>
+    </section>
 <!--
     <section anchor="simple_list" title="Simple List">
       <t>List styles: 'empty', 'symbols', 'letters', 'numbers', 'hanging',

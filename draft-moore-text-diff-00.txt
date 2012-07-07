@@ -64,14 +64,14 @@ Table of Contents
    2.  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . . 3
      2.1.  Permitted Character Sets  . . . . . . . . . . . . . . . . . 3
      2.2.  Grammar . . . . . . . . . . . . . . . . . . . . . . . . . . 4
-   3.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 5
-   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 6
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . . . 6
-   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 6
-     6.1.  Normative References  . . . . . . . . . . . . . . . . . . . 6
-     6.2.  Informative References  . . . . . . . . . . . . . . . . . . 6
+   3.  Security Considerations . . . . . . . . . . . . . . . . . . . . 5
+   4.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 6
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 6
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . . . 6
+   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+     7.1.  Normative References  . . . . . . . . . . . . . . . . . . . 7
+     7.2.  Informative References  . . . . . . . . . . . . . . . . . . 7
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 7
-
 
 
 
@@ -267,12 +267,12 @@ Internet-Draft              Abbreviated Title                  July 2012
 
 
 
-3.  Acknowledgements
+3.  Security Considerations
 
-   The author wishes to thank those who have done the hard work of
-   developing the algorithms and tools that form the de facto standard
-   of patchset exchange on the Internet today.  In particular, he would
-   like to recognize Douglas McIlroy and Larry Wall for the initial diff
+   As a subtype of the "text/*" media type, text/diff shares many of the
+   security concerns related to processing any arbitrary text body.  In
+   particular, implementators SHOULD be aware that this specification
+   does not impose a maximum line length, and that implementations that
 
 
 
@@ -281,11 +281,35 @@ Moore                    Expires January 8, 2013                [Page 5]
 Internet-Draft              Abbreviated Title                  July 2012
 
 
+   assume a fixed maximum line length may be subject to buffer overrun
+   attacks.
+
+   The contents of a text/diff file describe a set of changes that may
+   be applied to a file to alter its contents, and hence implementations
+   that process text/diff patches SHOULD be sure that the sender is
+   properly authenticated and authorized before applying patches.
+   Authentication and authorization are outside the scope of this
+   specification.
+
+   At any rate, the actual patch file itself is merely descriptive of a
+   set of changes and does not contain actual executable content per se.
+   Rather, a recipient must choose explicitly whether or not to apply a
+   patch, so in some sense this security concern is not attributable to
+   the media type per se, but we mention this issue as a community
+   public service announcement.
+
+
+4.  Acknowledgements
+
+   The author wishes to thank those who have done the hard work of
+   developing the algorithms and tools that form the de facto standard
+   of patchset exchange on the Internet today.  In particular, he would
+   like to recognize Douglas McIlroy and Larry Wall for the initial diff
    and patch utilities as well as the numerous contributors that have
    maintained and updated them over the years.
 
 
-4.  IANA Considerations
+5.  IANA Considerations
 
    This memo includes no request to IANA.
 
@@ -297,15 +321,23 @@ Internet-Draft              Abbreviated Title                  July 2012
    removed during conversion into an RFC by the RFC Editor.
 
 
-5.  Security Considerations
+6.  Security Considerations
 
    All drafts are required to have a security considerations section.
    See RFC 3552 [RFC3552] for a guide.
 
 
-6.  References
+7.  References
 
-6.1.  Normative References
+
+
+
+Moore                    Expires January 8, 2013                [Page 6]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
+7.1.  Normative References
 
    [RFC2046]  Freed, N. and N. Borenstein, "Multipurpose Internet Mail
               Extensions (MIME) Part Two: Media Types", RFC 2046,
@@ -314,7 +346,7 @@ Internet-Draft              Abbreviated Title                  July 2012
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
 
-6.2.  Informative References
+7.2.  Informative References
 
    [GNU]      GNU, Free Software Foundation, "GNU diffutils manual,
               Detailed Description of Unified Format", 2012, <http://
@@ -329,14 +361,6 @@ Internet-Draft              Abbreviated Title                  July 2012
 
    [RFC3552]  Rescorla, E. and B. Korver, "Guidelines for Writing RFC
               Text on Security Considerations", BCP 72, RFC 3552,
-
-
-
-Moore                    Expires January 8, 2013                [Page 6]
-
-Internet-Draft              Abbreviated Title                  July 2012
-
-
               July 2003.
 
    [RFC5789]  Dusseault, L. and J. Snell, "PATCH Method for HTTP",
@@ -359,30 +383,6 @@ Author's Address
    USA
 
    Email: jonm@jjmoore.net
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
