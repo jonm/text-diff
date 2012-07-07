@@ -13,6 +13,7 @@
 <!ENTITY RFC2629 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2629.xml">
 <!ENTITY I-D.narten-iana-considerations-rfc2434bis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.narten-iana-considerations-rfc2434bis.xml">
 -->
+<!ENTITY RFC5234 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5234.xml">
 <!ENTITY RFC5789 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5789.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
@@ -192,6 +193,7 @@
 	character set.</t>
       </section>
       <section title="Grammar">
+	<t>Formal syntax in this document is goverend by the <xref target="RFC5234">ABNF (Augmented Backus-Naur Form)</xref> grammar for specifying syntax.</t>
 	<t>A diff file begins with a two-line header describing the old and
 	  new filenames and their modification dates, and a way of
 	  differentiating which is the old and which is the new.</t>
@@ -584,6 +586,7 @@ patch = 1*diff
     <references title="Normative References">
       &RFC2046;
       &RFC2119;
+      &RFC5234;
     </references>
 
     <references title="Informative References">

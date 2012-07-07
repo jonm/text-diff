@@ -64,15 +64,15 @@ Table of Contents
    2.  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . . 3
      2.1.  Permitted Character Sets  . . . . . . . . . . . . . . . . . 3
      2.2.  Grammar . . . . . . . . . . . . . . . . . . . . . . . . . . 4
-   3.  Security Considerations . . . . . . . . . . . . . . . . . . . . 5
-     3.1.  Out-of-scope attacks  . . . . . . . . . . . . . . . . . . . 5
+   3.  Security Considerations . . . . . . . . . . . . . . . . . . . . 6
+     3.1.  Out-of-scope attacks  . . . . . . . . . . . . . . . . . . . 6
      3.2.  In-scope attacks  . . . . . . . . . . . . . . . . . . . . . 6
-   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 6
+   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 7
    5.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 8
    6.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 8
      6.1.  Normative References  . . . . . . . . . . . . . . . . . . . 8
      6.2.  Informative References  . . . . . . . . . . . . . . . . . . 8
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 8
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 9
 
 
 
@@ -188,6 +188,9 @@ Internet-Draft              Abbreviated Title                  July 2012
 
 2.2.  Grammar
 
+   Formal syntax in this document is goverend by the ABNF (Augmented
+   Backus-Naur Form) [RFC5234] grammar for specifying syntax.
+
    A diff file begins with a two-line header describing the old and new
    filenames and their modification dates, and a way of differentiating
    which is the old and which is the new.
@@ -214,15 +217,15 @@ Internet-Draft              Abbreviated Title                  July 2012
 
    After the header, a diff file contains a set of chunks.  Each chunk
    begins with a header identifying the relevant selection of lines from
-   the old and new files.
-
-
 
 
 
 Moore                    Expires January 8, 2013                [Page 4]
 
 Internet-Draft              Abbreviated Title                  July 2012
+
+
+   the old and new files.
 
 
    line-number = 1*DIGIT
@@ -267,12 +270,9 @@ Internet-Draft              Abbreviated Title                  July 2012
 
 
 
-3.  Security Considerations
 
-3.1.  Out-of-scope attacks
 
-   Since this document describes a media type and not a protocol,
-   network-based attacks are out of scope for this specification.  In
+
 
 
 
@@ -281,6 +281,12 @@ Moore                    Expires January 8, 2013                [Page 5]
 Internet-Draft              Abbreviated Title                  July 2012
 
 
+3.  Security Considerations
+
+3.1.  Out-of-scope attacks
+
+   Since this document describes a media type and not a protocol,
+   network-based attacks are out of scope for this specification.  In
    particular, eavesdropping, replay, message insertion, deletion,
    modification, and man-in-the-middle attacks are the concern of the
    containing or transporting protocol and not of the media type itself.
@@ -323,12 +329,6 @@ Internet-Draft              Abbreviated Title                  July 2012
    between two releases of an open source software project.
 
 
-4.  IANA Considerations
-
-   This memo includes a request to IANA to register the text/diff media
-   type.
-
-   Type name: text
 
 
 
@@ -336,6 +336,13 @@ Moore                    Expires January 8, 2013                [Page 6]
 
 Internet-Draft              Abbreviated Title                  July 2012
 
+
+4.  IANA Considerations
+
+   This memo includes a request to IANA to register the text/diff media
+   type.
+
+   Type name: text
 
    Subtype name: diff
 
@@ -379,18 +386,16 @@ Internet-Draft              Abbreviated Title                  July 2012
 
    Restrictions on usage: none
 
-   Author: authors of this document.
-
-   Change controller: authors of this document.
-
-
-
-
 
 
 Moore                    Expires January 8, 2013                [Page 7]
 
 Internet-Draft              Abbreviated Title                  July 2012
+
+
+   Author: authors of this document.
+
+   Change controller: authors of this document.
 
 
 5.  Acknowledgements
@@ -414,6 +419,9 @@ Internet-Draft              Abbreviated Title                  July 2012
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
 
+   [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
+              Specifications: ABNF", STD 68, RFC 5234, January 2008.
+
 6.2.  Informative References
 
    [GNU]      GNU, Free Software Foundation, "GNU diffutils manual,
@@ -433,20 +441,16 @@ Internet-Draft              Abbreviated Title                  July 2012
               viewpost.jsp?thread=164293>.
 
    [WIKIPEDIA]
-              Wikipedia, "diff", 2012,
-              <http://en.wikipedia.org/wiki/Diff#Unified_format>.
-
-
-
-
-
-
 
 
 
 Moore                    Expires January 8, 2013                [Page 8]
 
 Internet-Draft              Abbreviated Title                  July 2012
+
+
+              Wikipedia, "diff", 2012,
+              <http://en.wikipedia.org/wiki/Diff#Unified_format>.
 
 
 Author's Address
@@ -456,10 +460,6 @@ Author's Address
    USA
 
    Email: jonm@jjmoore.net
-
-
-
-
 
 
 
