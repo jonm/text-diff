@@ -166,7 +166,7 @@
 	and the use of CRLF as a linebreak.
       </t>
       <section title="Permitted Character Sets">
-	<t>As the unified diff format relies on the use of certain US-ASCII
+	<t>The unified diff format relies on the use of certain US-ASCII
 	characters to delineate change hunks and context.
 	Therefore, the value of the &quot;charset&quot; parameter MUST
 	reference a character set which is a superset of US-ASCII. Permitted
@@ -177,7 +177,8 @@
 	    <t>UTF-8</t>
 	</list>
 	Other character sets that are supersets of US-ASCII MAY be specified
-	as values of the &quot;charset&quot; parameter.
+	as values of the &quot;charset&quot; parameter. If the parameter
+	is omitted then a default value of US-ASCII MAY be assumed.
 	</t>
 	<t>Generally speaking, this format is useful for describing
 	changesets against files whose original and modified character
@@ -188,12 +189,25 @@
 	&quot;charset&quot; parameter value. For example, it is
 	possible that the original and modified versions of a file
 	might use the ISO-8859-1 character set, but the changed
-	portions may only use US-ASCII characters: in this case the
-	resulting diff should be marked as using the "us-ascii"
-	character set.</t>
+	portions only use US-ASCII characters: in this case the
+	resulting diff should be marked as using the &quot;us-ascii&quot;
+	character set. An implementation MUST NOT include characters
+	in a text/diff file that are not compatible with the value
+	of the &quot;charset&quot; parameter.
+        </t>
+	<t>The requirement to have a single character set for a text/diff
+        file means that there are certain change operations this format
+        cannot express, for example the conversion of a file from
+	ISO-8859-1 to UTF-8 where non-US-ASCII characters are used in both
+	the old and new versions. In particular, this means that not all
+        output of the common UN*X diff utility--even when generating the
+        unified diff format--will be a valid text/diff file. This media
+        type is aimed instead at the very common case where the character
+	sets of the old and new file are compatible with these requirements
+	and can thus be treated as a text/* type.</t>
       </section>
       <section title="Grammar">
-	<t>Formal syntax in this document is goverend by the <xref target="RFC5234">ABNF (Augmented Backus-Naur Form)</xref> grammar for specifying syntax.</t>
+	<t>Formal syntax in this document is governed by the <xref target="RFC5234">ABNF (Augmented Backus-Naur Form)</xref> grammar for specifying syntax.</t>
 	<t>A diff file begins with a two-line header describing the old and
 	  new filenames and their modification dates, and a way of
 	  differentiating which is the old and which is the new.</t>

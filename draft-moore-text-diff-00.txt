@@ -2,9 +2,9 @@
 
 
 Internet Engineering Task Force                                 J. Moore
-Internet-Draft                                              July 7, 2012
+Internet-Draft                                              July 8, 2012
 Intended status: Standards Track
-Expires: January 8, 2013
+Expires: January 9, 2013
 
 
                         The text/diff Media Type
@@ -32,7 +32,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 8, 2013.
+   This Internet-Draft will expire on January 9, 2013.
 
 Copyright Notice
 
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-Moore                    Expires January 8, 2013                [Page 1]
+Moore                    Expires January 9, 2013                [Page 1]
 
 Internet-Draft              Abbreviated Title                  July 2012
 
@@ -71,7 +71,7 @@ Table of Contents
    5.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 8
    6.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 8
      6.1.  Normative References  . . . . . . . . . . . . . . . . . . . 8
-     6.2.  Informative References  . . . . . . . . . . . . . . . . . . 8
+     6.2.  Informative References  . . . . . . . . . . . . . . . . . . 9
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 9
 
 
@@ -108,7 +108,7 @@ Table of Contents
 
 
 
-Moore                    Expires January 8, 2013                [Page 2]
+Moore                    Expires January 9, 2013                [Page 2]
 
 Internet-Draft              Abbreviated Title                  July 2012
 
@@ -153,7 +153,7 @@ Internet-Draft              Abbreviated Title                  July 2012
 
 2.1.  Permitted Character Sets
 
-   As the unified diff format relies on the use of certain US-ASCII
+   The unified diff format relies on the use of certain US-ASCII
    characters to delineate change hunks and context.  Therefore, the
    value of the "charset" parameter MUST reference a character set which
    is a superset of US-ASCII.  Permitted character sets specifically
@@ -164,7 +164,7 @@ Internet-Draft              Abbreviated Title                  July 2012
 
 
 
-Moore                    Expires January 8, 2013                [Page 3]
+Moore                    Expires January 9, 2013                [Page 3]
 
 Internet-Draft              Abbreviated Title                  July 2012
 
@@ -174,7 +174,8 @@ Internet-Draft              Abbreviated Title                  July 2012
    o  UTF-8
 
    Other character sets that are supersets of US-ASCII MAY be specified
-   as values of the "charset" parameter.
+   as values of the "charset" parameter.  If the parameter is omitted
+   then a default value of US-ASCII MAY be assumed.
 
    Generally speaking, this format is useful for describing changesets
    against files whose original and modified character set encodings are
@@ -183,17 +184,45 @@ Internet-Draft              Abbreviated Title                  July 2012
    "lowest common denominator" for the "charset" parameter value.  For
    example, it is possible that the original and modified versions of a
    file might use the ISO-8859-1 character set, but the changed portions
-   may only use US-ASCII characters: in this case the resulting diff
-   should be marked as using the "us-ascii" character set.
+   only use US-ASCII characters: in this case the resulting diff should
+   be marked as using the "us-ascii" character set.  An implementation
+   MUST NOT include characters in a text/diff file that are not
+   compatible with the value of the "charset" parameter.
+
+   The requirement to have a single character set for a text/diff file
+   means that there are certain change operations this format cannot
+   express, for example the conversion of a file from ISO-8859-1 to
+   UTF-8 where non-US-ASCII characters are used in both the old and new
+   versions.  In particular, this means that not all output of the
+   common UN*X diff utility--even when generating the unified diff
+   format--will be a valid text/diff file.  This media type is aimed
+   instead at the very common case where the character sets of the old
+   and new file are compatible with these requirements and can thus be
+   treated as a text/* type.
 
 2.2.  Grammar
 
-   Formal syntax in this document is goverend by the ABNF (Augmented
+   Formal syntax in this document is governed by the ABNF (Augmented
    Backus-Naur Form) [RFC5234] grammar for specifying syntax.
 
    A diff file begins with a two-line header describing the old and new
    filenames and their modification dates, and a way of differentiating
    which is the old and which is the new.
+
+
+
+
+
+
+
+
+
+
+
+
+Moore                    Expires January 9, 2013                [Page 4]
+
+Internet-Draft              Abbreviated Title                  July 2012
 
 
    filename = 1*VCHAR
@@ -217,14 +246,6 @@ Internet-Draft              Abbreviated Title                  July 2012
 
    After the header, a diff file contains a set of chunks.  Each chunk
    begins with a header identifying the relevant selection of lines from
-
-
-
-Moore                    Expires January 8, 2013                [Page 4]
-
-Internet-Draft              Abbreviated Title                  July 2012
-
-
    the old and new files.
 
 
@@ -252,6 +273,14 @@ Internet-Draft              Abbreviated Title                  July 2012
    chunk line.
 
 
+
+
+
+Moore                    Expires January 9, 2013                [Page 5]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
    chunk = chunk-header CRLF 1*chunk-line
 
 
@@ -268,17 +297,6 @@ Internet-Draft              Abbreviated Title                  July 2012
 
    patch = 1*diff
 
-
-
-
-
-
-
-
-
-Moore                    Expires January 8, 2013                [Page 5]
-
-Internet-Draft              Abbreviated Title                  July 2012
 
 
 3.  Security Considerations
@@ -312,6 +330,13 @@ Internet-Draft              Abbreviated Title                  July 2012
    and recommended defenses against these attacks in its Security
    Considerations section.
 
+
+
+Moore                    Expires January 9, 2013                [Page 6]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
    The contents of a text/diff file describe a set of changes that may
    be applied to a file to alter its contents, and hence implementations
    that process text/diff patches SHOULD be sure that the sender is
@@ -327,14 +352,6 @@ Internet-Draft              Abbreviated Title                  July 2012
    have more stringent privacy, security, and auditing requirements than
    a publicly-disseminated file showing the source code differences
    between two releases of an open source software project.
-
-
-
-
-
-Moore                    Expires January 8, 2013                [Page 6]
-
-Internet-Draft              Abbreviated Title                  July 2012
 
 
 4.  IANA Considerations
@@ -369,6 +386,13 @@ Internet-Draft              Abbreviated Title                  July 2012
 
    Published specification: this document.
 
+
+
+Moore                    Expires January 9, 2013                [Page 7]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
    Applications that use this media type: diff, patch, svn, git.
 
    Additional information:
@@ -385,13 +409,6 @@ Internet-Draft              Abbreviated Title                  July 2012
    Intended usage: COMMON
 
    Restrictions on usage: none
-
-
-
-Moore                    Expires January 8, 2013                [Page 7]
-
-Internet-Draft              Abbreviated Title                  July 2012
-
 
    Author: authors of this document.
 
@@ -422,6 +439,16 @@ Internet-Draft              Abbreviated Title                  July 2012
    [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234, January 2008.
 
+
+
+
+
+
+Moore                    Expires January 9, 2013                [Page 8]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
 6.2.  Informative References
 
    [GNU]      GNU, Free Software Foundation, "GNU diffutils manual,
@@ -441,14 +468,6 @@ Internet-Draft              Abbreviated Title                  July 2012
               viewpost.jsp?thread=164293>.
 
    [WIKIPEDIA]
-
-
-
-Moore                    Expires January 8, 2013                [Page 8]
-
-Internet-Draft              Abbreviated Title                  July 2012
-
-
               Wikipedia, "diff", 2012,
               <http://en.wikipedia.org/wiki/Diff#Unified_format>.
 
@@ -481,24 +500,5 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Moore                    Expires January 8, 2013                [Page 9]
+Moore                    Expires January 9, 2013                [Page 9]
 
