@@ -9,6 +9,7 @@
 <!ENTITY RFC2046 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2046.xml">
 <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
 <!ENTITY RFC3023 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3023.xml">
+<!ENTITY RFC3986 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml">
 <!--
 <!ENTITY RFC2629 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2629.xml">
 <!ENTITY I-D.narten-iana-considerations-rfc2434bis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.narten-iana-considerations-rfc2434bis.xml">
@@ -209,14 +210,21 @@
 	and can thus be treated as a text/* type.</t>
       </section>
       <section title="Grammar">
-	<t>Formal syntax in this document is governed by the <xref target="RFC5234">ABNF (Augmented Backus-Naur Form)</xref> grammar for specifying syntax.</t>
+	<t>Formal syntax in this document is governed by
+	the <xref target="RFC5234">ABNF (Augmented Backus-Naur Form)
+	notation</xref>, including the following core ABNF syntax
+	rules defined by that specification: DIGIT (decimal digits),
+	HTAB (horizontal tab), SP (space), CR (carriage return), and
+	LF (linefeed). This syntax also incorporates by reference the
+	&quot;URI-reference&quot; ABNF production
+	from <xref target="RFC3986">RFC 3986</xref>.
+	</t>
 	<t>A diff file begins with a two-line header describing the old and
 	  new filenames and their modification dates, and a way of
 	  differentiating which is the old and which is the new.</t>
 	<figure>
 <artwork type="abnf">
 <![CDATA[
-filename = 1*VCHAR
 year = 4DIGIT
 month = 2DIGIT
 day = 2DIGIT
@@ -227,11 +235,11 @@ second = 2DIGIT
 nanosecond = 9DIGIT
 time = hour ":" minute ":" second [ "." nanosecond ]
 timezone = ("+" / "-") hour minute
-file-modification = filename HTAB date SP time SP timezone
+resource-modification = URI-reference HTAB date SP time SP timezone
 old-indicator = "---"
 new-indicator = "+++"
-old-header = old-indicator SP file-modification
-new-header = new-indicator SP file-modification
+old-header = old-indicator SP resource-modification
+new-header = new-indicator SP resource-modification
 headers = old-header CRLF new-header CRLF
 ]]>
 </artwork>
@@ -602,6 +610,7 @@ patch = 1*diff
     <references title="Normative References">
       &RFC2046;
       &RFC2119;
+      &RFC3986;
       &RFC5234;
     </references>
 

@@ -205,15 +205,15 @@ Internet-Draft              Abbreviated Title                  July 2012
 2.2.  Grammar
 
    Formal syntax in this document is governed by the ABNF (Augmented
-   Backus-Naur Form) [RFC5234] grammar for specifying syntax.
+   Backus-Naur Form) notation [RFC5234], including the following core
+   ABNF syntax rules defined by that specification: DIGIT (decimal
+   digits), HTAB (horizontal tab), SP (space), CR (carriage return), and
+   LF (linefeed).  This syntax also incorporates by reference the "URI-
+   reference" ABNF production from RFC 3986 [RFC3986].
 
    A diff file begins with a two-line header describing the old and new
    filenames and their modification dates, and a way of differentiating
    which is the old and which is the new.
-
-
-
-
 
 
 
@@ -225,7 +225,6 @@ Moore                   Expires January 13, 2013                [Page 4]
 Internet-Draft              Abbreviated Title                  July 2012
 
 
-   filename = 1*VCHAR
    year = 4DIGIT
    month = 2DIGIT
    day = 2DIGIT
@@ -236,11 +235,11 @@ Internet-Draft              Abbreviated Title                  July 2012
    nanosecond = 9DIGIT
    time = hour ":" minute ":" second [ "." nanosecond ]
    timezone = ("+" / "-") hour minute
-   file-modification = filename HTAB date SP time SP timezone
+   resource-modification = URI-reference HTAB date SP time SP timezone
    old-indicator = "---"
    new-indicator = "+++"
-   old-header = old-indicator SP file-modification
-   new-header = new-indicator SP file-modification
+   old-header = old-indicator SP resource-modification
+   new-header = new-indicator SP resource-modification
    headers = old-header CRLF new-header CRLF
 
 
@@ -273,15 +272,13 @@ Internet-Draft              Abbreviated Title                  July 2012
    chunk line.
 
 
+   chunk = chunk-header CRLF 1*chunk-line
 
 
 
 Moore                   Expires January 13, 2013                [Page 5]
 
 Internet-Draft              Abbreviated Title                  July 2012
-
-
-   chunk = chunk-header CRLF 1*chunk-line
 
 
    Therefore, a single file diff is a header followed by at least one
@@ -330,6 +327,9 @@ Internet-Draft              Abbreviated Title                  July 2012
    and recommended defenses against these attacks in its Security
    Considerations section.
 
+   The contents of a text/diff file describe a set of changes that may
+   be applied to a file to alter its contents, and hence implementations
+
 
 
 Moore                   Expires January 13, 2013                [Page 6]
@@ -337,8 +337,6 @@ Moore                   Expires January 13, 2013                [Page 6]
 Internet-Draft              Abbreviated Title                  July 2012
 
 
-   The contents of a text/diff file describe a set of changes that may
-   be applied to a file to alter its contents, and hence implementations
    that process text/diff patches SHOULD be sure that the sender is
    properly authenticated and authorized before applying patches.  To
    the extent that patches are automatically applied, recipients of
@@ -386,14 +384,14 @@ Internet-Draft              Abbreviated Title                  July 2012
 
    Published specification: this document.
 
+   Applications that use this media type: diff, patch, svn, git.
+
 
 
 Moore                   Expires January 13, 2013                [Page 7]
 
 Internet-Draft              Abbreviated Title                  July 2012
 
-
-   Applications that use this media type: diff, patch, svn, git.
 
    Additional information:
 
@@ -436,10 +434,12 @@ Internet-Draft              Abbreviated Title                  July 2012
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
 
+   [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
+              Resource Identifier (URI): Generic Syntax", STD 66,
+              RFC 3986, January 2005.
+
    [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234, January 2008.
-
-
 
 
 
