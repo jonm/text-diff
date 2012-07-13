@@ -113,10 +113,13 @@
          keywords will be used for the search engine. -->
 
     <abstract>
-      <t>This document captures the definition of the commonly-used
-	&quot;unified diff format&quot; used to represent changes from one version
-      of a file to another for the purpose of registering this format
-      formally as a registered IANA media type.</t>
+      <t>The &quot;unified diff format&quot; is commonly used to
+	represent changes from one version of a file to another or to
+	represent a comparison of two files.  This document captures
+	the definition of the unified diff format as the text/diff
+	media type for the purpose of registering this format formally
+	in the IANA standards tree for media types.
+	</t>
     </abstract>
   </front>
 
@@ -124,25 +127,24 @@
     <section title="Introduction">
       <t>The &quot;unified diff format&quot; is a commonly-used file
       format typically used for exchanging patch changesets to a set
-      of documents--most notably, source code trees.  (including
-      source code). This format is generated and understood by a
-      variety of open source tools including diff, patch, svn, and
-      git.  However, at the time of this writing, no definitive,
-      formal definition of this file format exists, although there are
-      numerous informal definitions,
+      of documents--most notably, source code trees--or for comparing
+      the contents of two distinct files.  This format is generated
+      and understood by a variety of open source tools including diff,
+      patch, svn, and git.  However, at the time of this writing, no
+      definitive, formal definition of this file format exists,
+      although there are numerous informal definitions,
       including <xref target="WIKIPEDIA">a Wikipedia article about
       diff</xref>, a <xref target="VANROSSUM">blog post</xref> by
-      Guido van Rossum, and
-      the <xref target="GNU">documentation for GNU
-      diffutils</xref>.</t>
+      Guido van Rossum, and the <xref target="GNU">documentation for
+      GNU diffutils</xref>.</t>
 
-      <t>At the same time, the HTTP PATCH method was recently
-      standardized as <xref target="RFC5789">RFC 5789</xref>, for
-      which this file format would be an ideal media type. There are
-      additionally other Internet-based services that trade regularly
-      in patches or diffs that might benefit specifically from having
-      participants explicitly declare that exchanged patchsets conform
-      to a specific file format.
+      <t>At the same time, the HTTP PATCH method has been standardized
+      as <xref target="RFC5789">RFC 5789</xref>, for which this file
+      format would be an ideal media type. There are additionally
+      other Internet-based services that trade regularly in patches or
+      diffs that might benefit specifically from having participants
+      explicitly declare that exchanged patchsets conform to a
+      specific file format.
       </t>
 
       <t>Therefore, the goals of this document are first, to record a
