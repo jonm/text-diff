@@ -209,6 +209,38 @@
 	sets of the old and new file are compatible with these requirements
 	and can thus be treated as a text/* type.</t>
       </section>
+      <section title="Diff Contexts">
+	<t>Diffs are typically generated from a specific context;
+	  for example, from a specific directory on a file system,
+	  or based against a particular version of a source control
+	  repository.  Diffs are likewise applied against a specific
+	  context, and often this context is different than the
+	  generation context. For example, the diff may be applied
+	  against a different directory on the same machine, or
+	  against a directory on an entirely different filesystem,
+	  or against a different branch of a codebase. Indeed, the
+	  main purpose of diffs are to make a portable description
+	  of a set of document changes.
+	</t>
+	<t>
+	  The intended application context for diffs is carried
+	  out-of-band from the diffs themselves in common usage, and
+	  in fact is sometimes completely implicit, as with patchsets
+	  sent on a developer mailing list for an open source project.
+	  As such, this media type description will reference a
+	  particular context without specifying it explicitly; instead,
+	  a recipient fixes the context when attempting to apply the
+	  diff to that context. Insofar as the same diff can be
+	  applied to different contexts--albeit to varying degrees of success and to varying results--the meaning of the diff itself is not dependent
+	  on a particular context.
+	</t>
+	<t>
+	  For the remainder of this specification, we will assume that
+	  this &quot;diff context&quot; can be specified as
+	  a <xref target="RFC3986">URI</xref>.
+	</t>
+      </section>
+
       <section title="Grammar">
 	<t>Formal syntax in this document is governed by
 	the <xref target="RFC5234">ABNF (Augmented Backus-Naur Form)
@@ -219,9 +251,16 @@
 	&quot;URI-reference&quot; ABNF production
 	from <xref target="RFC3986">RFC 3986</xref>.
 	</t>
-	<t>A diff file begins with a two-line header describing the old and
-	  new filenames and their modification dates, and a way of
-	  differentiating which is the old and which is the new.</t>
+	<t>A &quot;diff file&quot; captures a set of instructions
+	describing a particular set of document changes, often known
+	as a &quot;patchset&quot; or a &quot;changeset&quot;. It consists
+	of one or more &quot;document diffs&quot;, each document diff describing changes
+	to a single document. A document diff consists of a &quot;header&quot;
+	identifying the target document, usually relative to the overall diff
+	context, plus one or more &quot;change hunks&quot; or &quot;chunks&quot;
+	specifying additions, deletions, or edits of particular lines in the
+	target document.
+	</t>
 	<figure>
 <artwork type="abnf">
 <![CDATA[
@@ -238,9 +277,9 @@ timezone = ("+" / "-") hour minute
 resource-modification = URI-reference HTAB date SP time SP timezone
 old-indicator = "---"
 new-indicator = "+++"
-old-header = old-indicator SP resource-modification
-new-header = new-indicator SP resource-modification
-headers = old-header CRLF new-header CRLF
+old-file-header = old-indicator SP resource-modification
+new-file-header = new-indicator SP resource-modification
+file-headers = old-file-header CRLF new-file-header CRLF
 ]]>
 </artwork>
 	</figure>

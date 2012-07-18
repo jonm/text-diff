@@ -2,9 +2,9 @@
 
 
 Internet Engineering Task Force                                 J. Moore
-Internet-Draft                                             July 12, 2012
+Internet-Draft                                             July 18, 2012
 Intended status: Standards Track
-Expires: January 13, 2013
+Expires: January 19, 2013
 
 
                         The text/diff Media Type
@@ -33,7 +33,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 13, 2013.
+   This Internet-Draft will expire on January 19, 2013.
 
 Copyright Notice
 
@@ -52,27 +52,28 @@ Copyright Notice
 
 
 
-Moore                   Expires January 13, 2013                [Page 1]
+Moore                   Expires January 19, 2013                [Page 1]
 
 Internet-Draft              Abbreviated Title                  July 2012
 
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . . 3
-     1.1.  Requirements Language . . . . . . . . . . . . . . . . . . . 3
-   2.  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . . 3
-     2.1.  Permitted Character Sets  . . . . . . . . . . . . . . . . . 3
-     2.2.  Grammar . . . . . . . . . . . . . . . . . . . . . . . . . . 4
-   3.  Security Considerations . . . . . . . . . . . . . . . . . . . . 6
-     3.1.  Out-of-scope attacks  . . . . . . . . . . . . . . . . . . . 6
-     3.2.  In-scope attacks  . . . . . . . . . . . . . . . . . . . . . 6
-   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 7
-   5.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 8
-   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 8
-     6.1.  Normative References  . . . . . . . . . . . . . . . . . . . 8
-     6.2.  Informative References  . . . . . . . . . . . . . . . . . . 9
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 9
+   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1.  Requirements Language  . . . . . . . . . . . . . . . . . .  3
+   2.  Definition . . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     2.1.  Permitted Character Sets . . . . . . . . . . . . . . . . .  3
+     2.2.  Diff Contexts  . . . . . . . . . . . . . . . . . . . . . .  4
+     2.3.  Grammar  . . . . . . . . . . . . . . . . . . . . . . . . .  5
+   3.  Security Considerations  . . . . . . . . . . . . . . . . . . .  7
+     3.1.  Out-of-scope attacks . . . . . . . . . . . . . . . . . . .  7
+     3.2.  In-scope attacks . . . . . . . . . . . . . . . . . . . . .  7
+   4.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . .  8
+   5.  Acknowledgements . . . . . . . . . . . . . . . . . . . . . . .  9
+   6.  References . . . . . . . . . . . . . . . . . . . . . . . . . .  9
+     6.1.  Normative References . . . . . . . . . . . . . . . . . . .  9
+     6.2.  Informative References . . . . . . . . . . . . . . . . . .  9
+   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 10
 
 
 
@@ -107,8 +108,7 @@ Table of Contents
 
 
 
-
-Moore                   Expires January 13, 2013                [Page 2]
+Moore                   Expires January 19, 2013                [Page 2]
 
 Internet-Draft              Abbreviated Title                  July 2012
 
@@ -164,7 +164,7 @@ Internet-Draft              Abbreviated Title                  July 2012
 
 
 
-Moore                   Expires January 13, 2013                [Page 3]
+Moore                   Expires January 19, 2013                [Page 3]
 
 Internet-Draft              Abbreviated Title                  July 2012
 
@@ -202,7 +202,41 @@ Internet-Draft              Abbreviated Title                  July 2012
    and new file are compatible with these requirements and can thus be
    treated as a text/* type.
 
-2.2.  Grammar
+2.2.  Diff Contexts
+
+   Diffs are typically generated from a specific context; for example,
+   from a specific directory on a file system, or based against a
+   particular version of a source control repository.  Diffs are
+   likewise applied against a specific context, and often this context
+   is different than the generation context.  For example, the diff may
+   be applied against a different directory on the same machine, or
+   against a directory on an entirely different filesystem, or against a
+   different branch of a codebase.  Indeed, the main purpose of diffs
+   are to make a portable description of a set of document changes.
+
+   The intended application context for diffs is carried out-of-band
+   from the diffs themselves in common usage, and in fact is sometimes
+   completely implicit, as with patchsets sent on a developer mailing
+
+
+
+Moore                   Expires January 19, 2013                [Page 4]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
+   list for an open source project.  As such, this media type
+   description will reference a particular context without specifying it
+   explicitly; instead, a recipient fixes the context when attempting to
+   apply the diff to that context.  Insofar as the same diff can be
+   applied to different contexts--albeit to varying degrees of success
+   and to varying results--the meaning of the diff itself is not
+   dependent on a particular context.
+
+   For the remainder of this specification, we will assume that this
+   "diff context" can be specified as a URI [RFC3986].
+
+2.3.  Grammar
 
    Formal syntax in this document is governed by the ABNF (Augmented
    Backus-Naur Form) notation [RFC5234], including the following core
@@ -211,18 +245,14 @@ Internet-Draft              Abbreviated Title                  July 2012
    LF (linefeed).  This syntax also incorporates by reference the "URI-
    reference" ABNF production from RFC 3986 [RFC3986].
 
-   A diff file begins with a two-line header describing the old and new
-   filenames and their modification dates, and a way of differentiating
-   which is the old and which is the new.
-
-
-
-
-
-
-Moore                   Expires January 13, 2013                [Page 4]
-
-Internet-Draft              Abbreviated Title                  July 2012
+   A "diff file" captures a set of instructions describing a particular
+   set of document changes, often known as a "patchset" or a
+   "changeset".  It consists of one or more "document diffs", each
+   document diff describing changes to a single document.  A document
+   diff consists of a "header" identifying the target document, usually
+   relative to the overall diff context, plus one or more "change hunks"
+   or "chunks" specifying additions, deletions, or edits of particular
+   lines in the target document.
 
 
    year = 4DIGIT
@@ -238,9 +268,17 @@ Internet-Draft              Abbreviated Title                  July 2012
    resource-modification = URI-reference HTAB date SP time SP timezone
    old-indicator = "---"
    new-indicator = "+++"
-   old-header = old-indicator SP resource-modification
-   new-header = new-indicator SP resource-modification
-   headers = old-header CRLF new-header CRLF
+   old-file-header = old-indicator SP resource-modification
+   new-file-header = new-indicator SP resource-modification
+   file-headers = old-file-header CRLF new-file-header CRLF
+
+
+
+
+
+Moore                   Expires January 19, 2013                [Page 5]
+
+Internet-Draft              Abbreviated Title                  July 2012
 
 
    After the header, a diff file contains a set of chunks.  Each chunk
@@ -275,12 +313,6 @@ Internet-Draft              Abbreviated Title                  July 2012
    chunk = chunk-header CRLF 1*chunk-line
 
 
-
-Moore                   Expires January 13, 2013                [Page 5]
-
-Internet-Draft              Abbreviated Title                  July 2012
-
-
    Therefore, a single file diff is a header followed by at least one
    chunk.
 
@@ -294,6 +326,15 @@ Internet-Draft              Abbreviated Title                  July 2012
 
    patch = 1*diff
 
+
+
+
+
+
+
+Moore                   Expires January 19, 2013                [Page 6]
+
+Internet-Draft              Abbreviated Title                  July 2012
 
 
 3.  Security Considerations
@@ -329,14 +370,6 @@ Internet-Draft              Abbreviated Title                  July 2012
 
    The contents of a text/diff file describe a set of changes that may
    be applied to a file to alter its contents, and hence implementations
-
-
-
-Moore                   Expires January 13, 2013                [Page 6]
-
-Internet-Draft              Abbreviated Title                  July 2012
-
-
    that process text/diff patches SHOULD be sure that the sender is
    properly authenticated and authorized before applying patches.  To
    the extent that patches are automatically applied, recipients of
@@ -350,6 +383,14 @@ Internet-Draft              Abbreviated Title                  July 2012
    have more stringent privacy, security, and auditing requirements than
    a publicly-disseminated file showing the source code differences
    between two releases of an open source software project.
+
+
+
+
+
+Moore                   Expires January 19, 2013                [Page 7]
+
+Internet-Draft              Abbreviated Title                  July 2012
 
 
 4.  IANA Considerations
@@ -386,13 +427,6 @@ Internet-Draft              Abbreviated Title                  July 2012
 
    Applications that use this media type: diff, patch, svn, git.
 
-
-
-Moore                   Expires January 13, 2013                [Page 7]
-
-Internet-Draft              Abbreviated Title                  July 2012
-
-
    Additional information:
 
       Magic number(s): none
@@ -407,6 +441,13 @@ Internet-Draft              Abbreviated Title                  July 2012
    Intended usage: COMMON
 
    Restrictions on usage: none
+
+
+
+Moore                   Expires January 19, 2013                [Page 8]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
 
    Author: authors of this document.
 
@@ -441,14 +482,6 @@ Internet-Draft              Abbreviated Title                  July 2012
    [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234, January 2008.
 
-
-
-
-Moore                   Expires January 13, 2013                [Page 8]
-
-Internet-Draft              Abbreviated Title                  July 2012
-
-
 6.2.  Informative References
 
    [GNU]      GNU, Free Software Foundation, "GNU diffutils manual,
@@ -464,6 +497,14 @@ Internet-Draft              Abbreviated Title                  July 2012
 
    [VANROSSUM]
               van Rossum, "Unified Diff Format", June 2006,
+
+
+
+Moore                   Expires January 19, 2013                [Page 9]
+
+Internet-Draft              Abbreviated Title                  July 2012
+
+
               <http://www.artima.com/weblogs/
               viewpost.jsp?thread=164293>.
 
@@ -500,5 +541,20 @@ Author's Address
 
 
 
-Moore                   Expires January 13, 2013                [Page 9]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Moore                   Expires January 19, 2013               [Page 10]
 
